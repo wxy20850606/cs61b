@@ -43,5 +43,38 @@ public double calcForceExertedBy(Planet x){
     return G * this.mass * x.mass/(r * r);
 }
 
+public double calcForceExertedByX(Planet x){
+    double Force = this.calcForceExertedBy(x);
+    return Force*(x.xxPos-this.xxPos)/this.calcDistance(x);
+
+}
+
+public double calcForceExertedByY(Planet x){
+    double Force = this.calcForceExertedBy(x);
+    return Force*(x.yyPos-this.yyPos)/this.calcDistance(x);
+}
+
+//* samh.equals(samh) = true*/
+public double calcNetForceExertedByX(Planet[] allPlanets){
+    double totalNetForce = 0;
+    for(Planet s : allPlanets){
+            if(this.equals(s)){
+                continue;
+            }
+            totalNetForce += this.calcForceExertedByX(s);
+        }
+return totalNetForce;
+}
+
+public double calcNetForceExertedByY(Planet[] allPlanets){
+    double totalNetForce = 0;
+    for(Planet s : allPlanets){
+            if(this.equals(s)){
+                continue;
+            }
+            totalNetForce += this.calcForceExertedByY(s);
+        }
+return totalNetForce;
+}
 
 }
