@@ -77,4 +77,12 @@ public double calcNetForceExertedByY(Planet[] allPlanets){
 return totalNetForce;
 }
 
+public void update(double dt, double fX, double fY){
+    double ax = fX/ mass;
+    double ay = fY / mass;
+    xxVel += dt * ax;
+    yyVel += dt * ay;
+    xxPos += xxVel * dt;
+    yyPos += yyVel * dt;
+}
 }
