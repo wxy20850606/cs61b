@@ -30,4 +30,19 @@ public static Planet[] readPlanets(String name){
     
     return fivePlanet;
 }
+
+public static void main(String[] args) {
+    double T = Double.parseDouble(args[0]);
+    double dt = Double.parseDouble(args[1]);
+    String filename = args[2];
+    double r = readRadius(filename);
+    Planet[] fivePlanet = readPlanets(filename);
+
+    StdDraw.setScale(-r, r);
+    StdDraw.picture(0,0,"images/starfield.jpg",2*r,2*r);
+    for (Planet p: fivePlanet){
+        p.draw();
+    }
+}
+	
 }

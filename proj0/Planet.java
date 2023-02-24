@@ -85,4 +85,9 @@ public void update(double dt, double fX, double fY){
     xxPos += xxVel * dt;
     yyPos += yyVel * dt;
 }
+
+public void draw(){
+    imgFileName = "images/" + imgFileName;
+    StdDraw.picture(xxPos,yyPos,imgFileName);
+}
 }
