@@ -74,14 +74,19 @@ public void printDeque(){
 }
 
 public T removeFirst(){
-
+    T item = sentinel.next.item;
+    sentinel.next = sentinel.next.next;
+    sentinel.next.prev = sentinel;
     size -= 1;
-    return sentinel.item;
+    return item;
 }
 
 public T removeLast(){
-
-    return sentinel.item;
+    T item = sentinel.prev.item;
+    sentinel.prev.prev.next = sentinel;
+    sentinel.prev = sentinel.prev.prev;
+    size -= 1;
+    return item;
 }
 
 public T get(int index){
@@ -100,6 +105,8 @@ public static void main(String[] args){
     s1.addFirst("love");
     s1.addFirst("i");
     s1.addLast("much");
+    s1.removeFirst();
+    s1.removeLast();
     s1.printDeque();
     System.out.println(s1.size);
 }
