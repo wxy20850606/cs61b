@@ -63,9 +63,9 @@ public int size(){
 }
 
 public void printDeque(){
-    StuffNode p = sentinel;
+    StuffNode p = sentinel.next;
     for(int i = 0; i < size; i += 1){
-        System.out.print(p.next.item + " ");
+        System.out.print(p.item + " ");
         p = p.next;
     }
     System.out.println();
@@ -90,10 +90,26 @@ public T removeLast(){
 }
 
 public T get(int index){
-
-    return sentinel.item;
+    StuffNode p = sentinel.next;
+    for(int i = 0; i < index; i += 1){
+        p = p.next;
+    }
+    return p.item;
 }
 
+public T getRecursiveHelper(StuffNode p,int index) {
+    if (index == 0) {
+        return p.item;
+    }
+
+    return getRecursiveHelper(p.next, index - 1);
+}
+
+public T getRecursive(int index){
+    StuffNode p = sentinel.next;
+
+    return getRecursiveHelper(p,index);
+}
 public static void main(String[] args){
     /*create a list of int */
 
@@ -107,8 +123,9 @@ public static void main(String[] args){
     s1.addLast("much");
     s1.removeFirst();
     s1.removeLast();
+    //s1.get(2);
     s1.printDeque();
-    System.out.println(s1.size);
+    System.out.println(s1.getRecursive(1));
 }
 
 }
