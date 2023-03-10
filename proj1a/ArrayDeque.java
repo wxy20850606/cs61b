@@ -16,11 +16,24 @@ public class ArrayDeque<T> {
         length = 8;
     }
 
+
     /**resize */
-    //public void resize(int capacity){}
+    private void resize(int capacity){
+       T[] a = (T []) new Object[capacity];
+       for(int i = 0; i < (size - nextLast);i++){
+           a[i] = items[nextLast+i];}
+       System.arraycopy(items,0,a,(size - nextLast),(nextFirst+1));
+       items = a;
+       nextLast = size;
+       nextFirst = size*2 - 1;
+    }
 
     /** Inserts X into the first of the list. */
     public void addLast(T item){
+        if(size == items.length){
+            resize(size * 2);
+            length = length * 2;
+        }
         items[nextLast] = item;
         size = size + 1;
         nextLast += 1;
@@ -30,6 +43,10 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item){
+        if(size == items.length){
+            resize(size * 2);
+            length = length * 2;
+        }
         items[nextFirst] = item;
         size = size + 1;
         nextFirst -= 1;
@@ -53,7 +70,12 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque(){
-        for(int i = 0; i < size; i += 1){
+        int firstItemIndex = nextFirst + 1;
+        for(int i = 0; i < length-firstItemIndex; i += 1){
+            System.out.print(items[firstItemIndex+i]+" ");
+        }
+        int lastItemIndex = nextLast - 1;
+        for(int i = 0; i < lastItemIndex; i += 1){
             System.out.print(items[i]+" ");
         }
         System.out.println();
@@ -75,7 +97,7 @@ public class ArrayDeque<T> {
         size -= 1;
         return item;
     }
-    
+
     public static void main(String[] args){
         ArrayDeque L = new ArrayDeque();
         L.addLast("a");
@@ -84,10 +106,13 @@ public class ArrayDeque<T> {
         L.addLast("d");
         L.addLast("e");
         L.addFirst("f");
-        //L.addLast("g");
-        //L.addLast("h");
-        L.removeLast();
-        L.removeFirst();
+        L.addLast("g");
+        L.addLast("h");
+        L.addLast("Z");
+        for(int i=0;i<=100;i++){
+            L.addFirst(i);
+        }
+        //L.removeFirst();
         L.printDeque();
         System.out.println(L.get(6));
     }
