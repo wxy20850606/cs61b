@@ -17,17 +17,51 @@ public class ArrayDeque<T> {
     }
 
 
-    /**resize */
+    /**grow the list if needed to add items*/
     private void resize(int capacity){
        T[] a = (T []) new Object[capacity];
-       for(int i = 0; i < (size - nextLast);i++){
+       for(int i = 0; i < (length - nextLast);i++){
            a[i] = items[nextLast+i];}
        System.arraycopy(items,0,a,(size - nextLast),(nextFirst+1));
        items = a;
-       nextLast = size;
-       nextFirst = size*2 - 1;
+       nextLast = length;
+       nextFirst = length*2 - 1;
     }
 
+    /**shrink capacity if needed after removing items*/
+    private int optimizeCapacity(){
+        while(length > 16 && length > size/0.25){
+            length = length/ 2;
+        }
+        return length;
+    }
+
+    /**shrink the list if needed after removing items*/
+    private void shrink(int capacity){
+        T[] a = (T []) new Object[capacity];
+        /**copy first half*/
+        if(nextFirst<nextLast){
+            for(int i = 0; i< size;i++){
+                a[i] = items[nextFirst + 1 + i];
+            }
+        }
+        /** copy first and last half*/
+        else{
+            int copyQTY = 0;
+            /** copy first half*/
+            for(int i = 0; i < length*2 -nextFirst-1;i++){
+                a[i] = items[nextFirst+1+i];
+                copyQTY = copyQTY + 1;
+            }
+            /** copy last half*/
+            for(int i = 0; i < (size - copyQTY);i++){
+                a[copyQTY+i] = items[i];
+            }
+        }
+        items = a;
+        nextLast = size;
+        nextFirst = length - 1;
+    }
     /** Inserts X into the first of the list. */
     public void addLast(T item){
         if(size == items.length){
@@ -81,20 +115,31 @@ public class ArrayDeque<T> {
         System.out.println();
     }
     public T removeLast(){
+        if(nextLast == 0){
+            nextLast = length;
+        }
         T item = items[nextLast-1];
         items[nextLast-1] = null;
         nextLast -= 1;
         size -= 1;
+        if(size < length * 0.25 && length >16){
+            shrink(optimizeCapacity());
+        }
         return item;
     }
     public T removeFirst(){
-        T item = items[nextFirst+1];
-        items[nextFirst+1] = null;
-        nextFirst += 1;
-        if(nextFirst == length){
-            nextFirst = nextFirst-length;
+        int lastIndex = nextFirst+1;
+        if(lastIndex==length){
+            lastIndex = length-lastIndex;
+            nextFirst = -1;
         }
+        T item = items[lastIndex];
+        items[lastIndex] = null;
+        nextFirst += 1;
         size -= 1;
+        if(size < length * 0.25){
+            shrink(optimizeCapacity());
+        }
         return item;
     }
 
@@ -112,8 +157,17 @@ public class ArrayDeque<T> {
         for(int i=0;i<=100;i++){
             L.addFirst(i);
         }
-        //L.removeFirst();
+        L.removeLast();
+        for(int i=0;i<=75;i++){
+            L.removeFirst();
+        }
+        for(int i=0;i<=20;i++){
+            L.removeLast();
+        }
+        for(int i=0;i<=15;i++){
+            L.removeLast();
+        }
         L.printDeque();
-        System.out.println(L.get(6));
+        System.out.println(109/128);
     }
 }
