@@ -52,6 +52,7 @@ public class ArrayDeque<T> {
         }
         return index-1;
     }
+    
     /** Inserts X into the first of the list. */
     public void addLast(T item){
         if(size == items.length){
@@ -73,6 +74,7 @@ public class ArrayDeque<T> {
         nextFirst = minusOne(nextFirst,length);
         size = size + 1;
     }
+
     public T get(int index){
         if(index >= size){
             return null;
@@ -100,6 +102,7 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
+
     public T removeLast(){
         if(size ==0){
             return null;
@@ -114,6 +117,7 @@ public class ArrayDeque<T> {
         }
         return item;
     }
+
     public T removeFirst(){
         if(size == 0){
             return null;
@@ -123,7 +127,7 @@ public class ArrayDeque<T> {
         items[firstIndex] = null;
         nextFirst = plusOne(nextFirst,length);
         size -= 1;
-        if(size < length * 0.25){
+        if(size < length * 0.25 && length > 16){
             shrink();
         }
         return item;
