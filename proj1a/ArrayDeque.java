@@ -76,10 +76,14 @@ public class ArrayDeque<T> {
         size = size + 1;
     }
     public T get(int index){
-        if(size == 0){
+        if(index >= size){
             return null;
         }
-        return items[index];
+        int firstIndex = plusOne(nextFirst,length);
+        for(int i = 0;i < index; i++){
+            firstIndex = plusOne(firstIndex,length);
+        }
+        return items[firstIndex];
     }
 
     public boolean isEmpty(){
@@ -99,17 +103,23 @@ public class ArrayDeque<T> {
         System.out.println();
     }
     public T removeLast(){
+        if(size ==0){
+            return null;
+        }
         int lastIndex = minusOne(nextLast,length);
         T item = items[lastIndex];
         items[lastIndex] = null;
         nextLast = minusOne(nextLast,length);
         size -= 1;
-        if(size < length * 0.25 && length >16){
+        if(size < length * 0.25 && length > 16){
             shrink();
         }
         return item;
     }
     public T removeFirst(){
+        if(size == 0){
+            return null;
+        }
         int firstIndex = plusOne(nextFirst,length);
         T item = items[firstIndex];
         items[firstIndex] = null;
@@ -120,5 +130,4 @@ public class ArrayDeque<T> {
         }
         return item;
     }
-
 }
