@@ -5,7 +5,9 @@ public class ArrayDeque<T> {
     private int nextLast;
     private int length;
 
-    /** create an empty array */
+    /**
+     * create an empty array
+     */
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
@@ -14,7 +16,7 @@ public class ArrayDeque<T> {
         length = 8;
     }
 
-    /** copy the old list to a new list after grow/shrink */
+    /**copy the old list to a new list after grow/shrink */
     private void copy(int capacity){
         T[] a = (T[]) new Object[capacity];
         int firstIndex = plusOne(nextFirst,length);
@@ -25,20 +27,22 @@ public class ArrayDeque<T> {
             i++;}
         items = a;
     }
-    /** grow the list if needed to add items */
+    /**grow the list if needed to add items*/
     private void grow() {
-        copy(length * 2);
+        copy(length*2);
         nextLast = length;
         nextFirst = length * 2 - 1;
+        length = length * 2;
     }
 
-    /** shrink the list if needed after removing items */
+    /**shrink the list if needed after removing items*/
     private void shrink(){
-        copy(length / 2);
+        copy(length/2);
         nextLast = size;
         nextFirst = length - 1;
+        length = length / 2;
     }
-    private int plusOne(int index, int length){
+    private int plusOne(int index,int length){
         index %= length;
         if (index == length - 1) {
             return 0;
@@ -46,18 +50,17 @@ public class ArrayDeque<T> {
         return index + 1;
     }
 
-    private int minusOne(int index, int length){
-        if (index == 0){
+    private int minusOne(int index,int length){
+        if (index  == 0){
             return length-1;
         }
         return index-1;
     }
-    
     /** Inserts X into the first of the list. */
     public void addLast(T item){
         if(size == items.length){
             grow();
-            length = length * 2;
+
         }
         items[nextLast] = item;
         nextLast = plusOne(nextLast,length);
@@ -67,14 +70,12 @@ public class ArrayDeque<T> {
     public void addFirst(T item){
         if(size == items.length){
             grow();
-            length = length * 2;
         }
         items[nextFirst] = item;
 
         nextFirst = minusOne(nextFirst,length);
         size = size + 1;
     }
-
     public T get(int index){
         if(index >= size){
             return null;
@@ -102,7 +103,6 @@ public class ArrayDeque<T> {
         }
         System.out.println();
     }
-
     public T removeLast(){
         if(size ==0){
             return null;
@@ -117,7 +117,6 @@ public class ArrayDeque<T> {
         }
         return item;
     }
-
     public T removeFirst(){
         if(size == 0){
             return null;
@@ -127,7 +126,7 @@ public class ArrayDeque<T> {
         items[firstIndex] = null;
         nextFirst = plusOne(nextFirst,length);
         size -= 1;
-        if(size < length * 0.25 && length > 16){
+        if(size < (length * 0.25) && length > 16){
             shrink();
         }
         return item;
