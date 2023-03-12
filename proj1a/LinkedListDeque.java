@@ -7,12 +7,13 @@ public class LinkedListDeque<T>{
         private StuffNode prev;
 
     /* constructor for node */  
-        public StuffNode(T i) {
+        public StuffNode(T i,StuffNode n,StuffNode p){
             item = i;
+            next = n;
+            prev = p;
         }
      
-        public StuffNode(T i,StuffNode n,StuffNode p) {
-            item = i;
+        public StuffNode(StuffNode n,StuffNode p) {
             next = n;
             prev = p;
         }
@@ -23,8 +24,8 @@ public class LinkedListDeque<T>{
     private int size;
 
     /*create an empty list */
-    public LinkedListDeque(T item){
-        sentinel = new StuffNode(item);
+    public LinkedListDeque(){
+        sentinel = new StuffNode(null,null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
         size = 0;
