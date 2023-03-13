@@ -5,10 +5,10 @@ public class Palindrome {
     public static Deque<Character> wordToDeque(String word) {
         int stringLength = word.length();
         //ArrayDeque L = new ArrayDeque();
-        char charAt = word.charAt(0);
+        char charAt = Character.toUpperCase(word.charAt(0));
         L.addFirst(charAt);
         for (int i = 1; i < stringLength; i++) {
-            charAt = word.charAt(i);
+            charAt = Character.toUpperCase(word.charAt(i));
             L.addLast(charAt);
         }
         return L;
@@ -16,20 +16,24 @@ public class Palindrome {
     }
 
     private Boolean isPalidromeHelper(Deque L) {
-        if (L.removeFirst() != L.removeLast() && L.removeLast() != null) {
-            return false;
-        }
-        else if(L.removeLast() == null){
+
+        if(L.size() <= 1){
+            L.removeLast();
             return true;
         }
-        return isPalidromeHelper(L);
+        else if (L.removeFirst() == L.removeLast()) {
+            return isPalidromeHelper(L);
+        }
+        else{
+            for(int i = 0; i < L.size(); i++){
+                L.removeLast();
+                L.removeFirst();
+            }
+            return false;
+        }
     }
 
     public boolean isPalindrome(String word) {
-        int length = word.length();
-        if (length < 2) {
-            return true;
-        }
         wordToDeque(word);
         return isPalidromeHelper(L);
     }

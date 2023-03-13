@@ -7,8 +7,11 @@ public class PalindromeTest {
     public static void testisPalindrome(){
         assertFalse(palindrome.isPalindrome("cat"));
         assertTrue(palindrome.isPalindrome("a"));
-        assertTrue(palindrome.isPalindrome("noon"));
+        assertTrue(palindrome.isPalindrome("Bob"));
+        assertTrue(palindrome.isPalindrome(" "));
         assertFalse(palindrome.isPalindrome("kite"));
+        assertTrue(palindrome.isPalindrome("saippuakivikauppias"));
+        assertTrue(palindrome.isPalindrome("Rotavator"));
     }
     public static void main(String[] args) {
             testisPalindrome();
