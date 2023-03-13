@@ -12,6 +12,7 @@ public class Palindrome {
             L.addLast(charAt);
         }
         return L;
+
     }
 
     private Boolean isPalidromeHelper(Deque L) {
@@ -32,5 +33,6 @@ public class Palindrome {
         wordToDeque(word);
         return isPalidromeHelper(L);
     }
+
 }
 
