@@ -1,3 +1,4 @@
+import java.util.Iterator;
 public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
@@ -138,5 +139,27 @@ public class ArrayDeque<T> implements Deque<T> {
             shrink();
         }
         return item;
+    }
+
+    public Iterator<T> iterator(){
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T>{
+        private int wizPos;
+
+        public ArrayDequeIterator(){
+            wizPos = 0;
+        }
+
+        public boolean hasNext(){
+            return wizPos < size;
+        }
+
+        public T next(){
+            T returnItem = get(wizPos);
+            wizPos += 1;
+            return returnItem;
+        }
     }
 }

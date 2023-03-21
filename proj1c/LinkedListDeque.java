@@ -1,10 +1,11 @@
+import java.util.Iterator;
+
 public class LinkedListDeque<T>implements Deque<T>{
     /* subclass */
     private class StuffNode{
         private T item;
         private StuffNode next;
         private StuffNode prev;
-
     /* constructor for node */  
         public StuffNode(T i,StuffNode n,StuffNode p){
             item = i;
@@ -107,6 +108,27 @@ public class LinkedListDeque<T>implements Deque<T>{
         StuffNode p = sentinel.next;
         return getRecursiveHelper(p,index);
     }
+
     @Override
-    pubic iterator()
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T>{
+        private int wizPos;
+
+        public LinkedListDequeIterator(){
+            wizPos = 0;
+        }
+
+        public boolean hasNext(){
+            return wizPos < size;
+        }
+
+        public T next(){
+            T returnItem = get(wizPos);
+            wizPos += 1;
+            return returnItem;
+        }
+    }
 }
