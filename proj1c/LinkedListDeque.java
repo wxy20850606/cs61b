@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class LinkedListDeque<T>implements Deque<T>{
+public class LinkedListDeque<T>implements Deque<T> {
     /* subclass */
     private class StuffNode{
         private T item;
@@ -130,5 +132,32 @@ public class LinkedListDeque<T>implements Deque<T>{
             wizPos += 1;
             return returnItem;
         }
+    }
+    @Override
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        if(o instanceof LinkedListDeque other){
+            if(this.size != other.size){
+                return false;
+            }
+            for(int i = 0; i < size(); i += 1){
+                if(this.get(i) != other.get(i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString(){
+        List<String> myString = new ArrayList<>();
+        for(T x : this){
+            myString.add(x.toString());
+        }
+        return "["+String.join(",",myString)+"]";
     }
 }

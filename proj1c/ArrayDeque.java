@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
@@ -161,5 +164,32 @@ public class ArrayDeque<T> implements Deque<T> {
             wizPos += 1;
             return returnItem;
         }
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        if(o instanceof ArrayDeque otherDeque){
+            if(this.size != otherDeque.size){
+                return false;
+            }
+            for (int i = 0; i < size; i += 1){
+                if(this.get(i) != otherDeque.get(i)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+        }
+    @Override
+    public String toString(){
+        List<String> myString = new ArrayList<>();
+        for(T x : this){
+            myString.add(x.toString());
+        }
+        return "["+String.join(",",myString)+"]";
     }
 }
