@@ -18,7 +18,10 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
+    static final File CAPERS_FOLDER = Utils.join(CWD,".capers");
+    static final File STORYFILE = Utils.join(CWD,".capers", "story.txt");
+
+    // TODO Hint: look at the `join`
                                             //      function in Utils
 
     /**
@@ -31,7 +34,19 @@ public class CapersRepository {
      *    - story -- file containing the current story
      */
     public static void setupPersistence() {
-        // TODO
+        //TO do
+            //get the directory
+            File d = new File("CAPERS_FOLDER");
+            //create the directory if it does not exist.
+            boolean var = d.mkdir();
+            if(var){
+                return;
+            }
+            else{
+                d.mkdir();
+            }
+
+
     }
 
     /**
@@ -41,6 +56,23 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        try{
+            File s = new File("STORYFILE");
+            boolean val = s.createNewFile();
+            if(val){
+                Utils.writeContents(s,text);
+            }
+            else{
+                s.createNewFile();
+                Utils.writeContents(s,text);
+            }
+            String allStory = Utils.readContentsAsString(s);
+            System.out.println(allStory);
+        }
+        catch(Exception e){
+            System.err.println(e);
+        }
+
     }
 
     /**
