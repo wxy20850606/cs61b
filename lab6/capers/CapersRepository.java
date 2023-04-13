@@ -18,8 +18,8 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = Utils.join(CWD,".capers");
-    static final File STORYFILE = Utils.join(CWD,".capers", "story.txt");
+    static final File CAPERS_FOLDER = Utils.join(CWD,".capers/");
+    //static final File STORYFILE = Utils.join(CWD,".capers", "story.txt");
 
     // TODO Hint: look at the `join`
                                             //      function in Utils
@@ -56,23 +56,25 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        File s = new File("story.txt");
         try{
-            File s = new File("STORYFILE");
-            boolean val = s.createNewFile();
-            if(val){
-                Utils.writeContents(s,text);
-            }
-            else{
+            boolean val =s.exists();
+            if(!val){
                 s.createNewFile();
                 Utils.writeContents(s,text);
             }
-            String allStory = Utils.readContentsAsString(s);
-            System.out.println(allStory);
+            else{
+                String oldStory = Utils.readContentsAsString(s);
+                String allStory = oldStory +"\n" + text;
+                Utils.writeContents(s,allStory);
+            }
+
         }
         catch(Exception e){
             System.err.println(e);
         }
-
+        String Story = Utils.readContentsAsString(s);
+        System.out.println(Story);
     }
 
     /**
