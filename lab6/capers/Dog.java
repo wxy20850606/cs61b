@@ -40,10 +40,8 @@ public class Dog implements Serializable{ // TODO
      */
     public static Dog fromFile(String name) {
         // TODO (hint: look at the Utils file)
-        Dog d;
-        File inFile = new File(DOG_FOLDER,"name");
-        d = Utils.readObject(inFile,Dog.class);
-        return d;
+        File inFile = new File(DOG_FOLDER,name);
+        return Utils.readObject(inFile,Dog.class);
     }
 
     /**
@@ -62,7 +60,7 @@ public class Dog implements Serializable{ // TODO
         // TODO (hint: don't forget dog names are unique)
         //writeObject which use writeContents method have already taken care of the overwriting.
         String dogName = this.name;
-        File newDog = new File(DOG_FOLDER,"dogName");
+        File newDog = new File(DOG_FOLDER,dogName);
         Utils.writeObject(newDog,this);
     }
 
