@@ -19,7 +19,7 @@ public class CapersRepository {
 
     /** Main metadata folder. */
     static final File CAPERS_FOLDER = Utils.join(CWD,".capers");
-    //static final File STORYFILE = Utils.join(CWD,".capers", "story.txt");
+    static final File STORYFILE = Utils.join(CAPERS_FOLDER, "story.txt");
 
     // TODO Hint: look at the `join`
                                             //      function in Utils
@@ -37,6 +37,12 @@ public class CapersRepository {
         //TO do
         CAPERS_FOLDER.mkdir();
         Dog.DOG_FOLDER.mkdir();
+        try{
+            STORYFILE.createNewFile();
+        }
+        catch(Exception e){
+            System.err.println(e);
+        }
     }
 
     /**
@@ -46,24 +52,10 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
-        File s = new File(".capers","story.txt");
-        try{
-            boolean val =s.exists();
-            if(!val){
-                s.createNewFile();
-                Utils.writeContents(s,text);
-            }
-            else{
-                String oldStory = Utils.readContentsAsString(s);
-                String allStory = oldStory +"\n" + text;
-                Utils.writeContents(s,allStory);
-            }
-
-        }
-        catch(Exception e){
-            System.err.println(e);
-        }
-        String Story = Utils.readContentsAsString(s);
+        String oldStory = Utils.readContentsAsString(STORYFILE);
+        String allStory = oldStory +"\n" + text;
+        Utils.writeContents(STORYFILE,allStory);
+        String Story = Utils.readContentsAsString(STORYFILE);
         System.out.println(Story);
     }
 
