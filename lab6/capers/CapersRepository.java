@@ -18,7 +18,7 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = Utils.join(CWD,".capers/");
+    static final File CAPERS_FOLDER = Utils.join(CWD,".capers");
     //static final File STORYFILE = Utils.join(CWD,".capers", "story.txt");
 
     // TODO Hint: look at the `join`
@@ -35,18 +35,8 @@ public class CapersRepository {
      */
     public static void setupPersistence() {
         //TO do
-            //get the directory
-            File d = new File("CAPERS_FOLDER");
-            //create the directory if it does not exist.
-            boolean var = d.mkdir();
-            if(var){
-                return;
-            }
-            else{
-                d.mkdir();
-            }
-
-
+        CAPERS_FOLDER.mkdir();
+        Dog.DOG_FOLDER.mkdir();
     }
 
     /**
@@ -56,7 +46,7 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
-        File s = new File("story.txt");
+        File s = new File(".capers","story.txt");
         try{
             boolean val =s.exists();
             if(!val){
@@ -84,6 +74,9 @@ public class CapersRepository {
      */
     public static void makeDog(String name, String breed, int age) {
         // TODO
+        Dog d = new Dog(name,breed,age);
+        d.saveDog();
+        System.out.println(d.toString());
     }
 
     /**
