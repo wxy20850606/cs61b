@@ -1,5 +1,6 @@
 package bstmap;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -89,7 +90,18 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. Not required for Lab 7.
      * If you don't implement this, throw an UnsupportedOperationException. */
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> set = new HashSet<>();
+        addKey(root,set);
+        return set;
+    }
+
+    private void addKey(BSTNode node,Set<K> set){
+        if(node == null){
+            return;
+        }
+        set.add(node.key);
+        addKey(node.left,set);
+        addKey(node.right,set);
     }
     @Override
     /* Removes the mapping for the specified key from this map if present.
@@ -116,16 +128,21 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
         return null;
     }
     private BSTNode removeHelper(BSTNode node,K key, V value){
+        //find node key need to be removed
         if(key.compareTo(node.key) == 0){
+            //if node to be removed have no child
             if(node.left == null && node.right == null){
                 return null;
             }
+            //if node to be removed have right child
             if(node.left == null && node.right != null){
                 return node.right;
             }
+            //if node to be removed have 1 left child
             if(node.left != null && node.right == null){
                 return node.left;
             }
+            //if node have 2 children
             else{
                 BSTNode predecessor = findPredecessor(node.left);
                 node.key = predecessor.key;
@@ -133,20 +150,25 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
                     return node;
             }
         }
+        //search the right part to find the key
         if(key.compareTo(node.key) > 0){
             node.right = removeHelper(node.right,key,value);
         }
+        //search the left part to find the key
         else{
             node.left = removeHelper(node.left,key,value);
         }
         return node;
     }
 
+    //find predecessor,copy to make a new node,delete it and return the new node
     private BSTNode findPredecessor(BSTNode node){
         if(node.right.right == null){
             BSTNode predecessor = new BSTNode(node.right.key,node.right.value);
+            //if predecessor have no child
             if(node.right.left== null){
                 node.right = null;}
+            //if the predesessor have 1 left child
             else{
                 node.right = node.right.left;
             }
@@ -155,11 +177,22 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
         return findPredecessor(node.right);
     }
     @Override
-    public Iterator<K> iterator()  {
-        throw new UnsupportedOperationException();
+    public Iterator<K> iterator(){
+        return keySet().iterator();
     }
 
+    public void printInOrder(){
+        printHelper(root);
+    }
 
+    private void printHelper(BSTNode node){
+    if(node == null){
+        return;
+    }
+    printHelper(node.left);
+    System.out.println(node.key.toString() + ":" + node.value.toString());
+    printHelper(node.right);
+    }
     public static void main(String[] args){
         BSTMap a = new BSTMap();
         a.put("d",1);
@@ -171,6 +204,7 @@ public class BSTMap<K extends Comparable<K>, V>  implements Map61B<K, V> {
         a.put("eye",7);
         a.put("g",8);
         a.put("cf",9);
-        a.remove("d",1);
+        a.printInOrder();
+        a.keySet();
     }
 }
