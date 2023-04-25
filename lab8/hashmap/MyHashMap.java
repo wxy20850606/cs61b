@@ -31,6 +31,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private int initialCapacity = 16;
     private double loadFactor = 0.75;
     private  int size = 0;
+    private int length=16;
 
 
     /** Constructors */
@@ -109,7 +110,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public void clear(){
         size = 0;
-        buckets = null;
+        buckets = createTable(initialCapacity);
+        length = initialCapacity;
     }
 
     @Override
@@ -139,35 +141,49 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     public int size(){
         return size;
     }
-    private void resize(){
-        initialCapacity = initialCapacity * 2;
-        for(int i = 0; i < size; i += 1){
-            rePutNode();}
-    }
-
-    private void rePutNode(){
-        throw new UnsupportedOperationException();
-
+    private void resize(int doubleBucket) {
+        Collection<Node>[] newBuckets = createTable(doubleBucket);
+        length = length * 2;
+        for (int i = 0; i < buckets.length; i += 1) {
+            for (Node node : buckets[i]) {
+                if (node != null) ;
+                int mod = modCalculator(node.key);
+                newBuckets[mod].add(node);
+            }
+        }
+        buckets=newBuckets;
     }
 
     // calculate the mode for a given key use Math.floorMod
     private int modCalculator(K key){
         int hashCode = key.hashCode();
-        int mod = Math.floorMod(hashCode,initialCapacity);
+        int mod = Math.floorMod(hashCode, length);
         return mod;
     }
     @Override
     public void put(K key, V value){
+        Node node = getNode(key);
+        if(node != null){
+            node.value = value;
+        }
+        else{
         int mod = modCalculator(key);
-        Node node = createNode(key,value);
-        buckets[mod].add(node);
+        Node newNode = createNode(key,value);
+        buckets[mod].add(newNode);
         size += 1;
+        double currentLoadFactor = size * 1.0 / length;
+        if(currentLoadFactor > loadFactor){
+            resize(length * 2);
+            }
+        }
     }
     @Override
     public Set<K> keySet(){
         Set<K> set = new HashSet<>();
-        for(int i = 0; i < initialCapacity; i += 1){
-            throw new UnsupportedOperationException();
+        for(int i = 0; i < length; i += 1){
+            for(Node node:buckets[i]){
+                set.add(node.key);
+            }
         }
         return set;
     }
@@ -183,10 +199,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return keySet().iterator();
     }
 
-    public static void main(String[] args) {
-        MyHashMap<String, String> a = new MyHashMap<>();
-        a.put("abc","d");
-    }
 
 
 
