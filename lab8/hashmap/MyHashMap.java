@@ -188,10 +188,23 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return set;
     }
     @Override
-    public V remove(K key){ throw new UnsupportedOperationException();
+    public V remove(K key){
+        Node node = getNode(key);
+        V nodeValue = node.value;
+        if(node != null){
+            int i = modCalculator(key);
+            buckets[i].remove(node);
+            size -= 1;
+            return nodeValue;
+        }
+        return null;
     }
     @Override
-    public V remove(K key, V value){ throw new UnsupportedOperationException();
+    public V remove(K key, V value){
+        if(get(key) == value){
+            return remove(key);
+        }
+        return null;
     }
 
     @Override
@@ -199,6 +212,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return keySet().iterator();
     }
 
+    public static void main(String[] args) {
+        MyHashMap<String, String> a = new MyHashMap<>();
+        a.put("abc","d");
+        a.put("a","d");
+        a.put("ac","d");
+        a.put("bc","d");
+        a.put("c","d");
+        a.remove("a","d");
+    }
 
 
 
